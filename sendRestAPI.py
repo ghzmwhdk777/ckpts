@@ -6,6 +6,7 @@ from PIL import Image
 import base64
 import json
 
+
 class SendImageAndMask:
     def __init__(self):
         pass
@@ -15,18 +16,17 @@ class SendImageAndMask:
         return {
             "required": {
                 "rgb_image": ("IMAGE",),
-                "mask_image": ("IMAGE",),
+                "mask_image": ("MASK",),
                 "api_endpoint": ("STRING", {
-                    "default": "http://localhost:8000/upload",
+                    "default": "http://localhost:8501/stream",
                     "lazy": False
                 })
             }
         }
 
-    RETURN_TYPES = ("IMAGE", "IMAGE")
-    RETURN_NAMES = ("rgb_image", "mask_image")
+    RETURN_TYPES = ("IMAGE", "MASK", "STRING")
+    RETURN_NAMES = ("rgb_image", "mask_image", "rgb_base64")
     FUNCTION = "send_images"
-
     CATEGORY = "ImageSender"
 
     def send_images(self, rgb_image, mask_image, api_endpoint):
@@ -34,8 +34,8 @@ class SendImageAndMask:
         RGB 이미지와 마스크 이미지를 REST API를 통해 JSON으로 전송하는 함수.
         """
         # 1. 이미지 텐서를 PIL 이미지로 변환
-        rgb_pil = self.tensor_to_pil(rgb_image)
-        mask_pil = self.tensor_to_pil(mask_image)
+        rgb_pil = self.tensor_to_pil(rgb_image, is_mask=False)
+        mask_pil = self.tensor_to_pil(mask_image, is_mask=True)
 
         # 2. 이미지를 Base64로 인코딩
         rgb_base64 = self.pil_to_base64(rgb_pil)
@@ -59,9 +59,13 @@ class SendImageAndMask:
             print(f"Error while sending images to API: {e}")
 
         # 5. 입력받은 이미지를 그대로 반환하여 출력값 제공
-        return (rgb_image, mask_image)
+        return (rgb_image, mask_image, rgb_base64)
 
-    def tensor_to_pil(self, image_tensor):
+    def tensor_to_pil(self, image_tensor, is_mask=False):
+        """
+        텐서를 PIL 이미지로 변환하는 함수
+        is_mask: True인 경우 마스크 이미지로 처리
+        """
         # 텐서를 NumPy 배열로 변환
         if torch.is_tensor(image_tensor):
             image = image_tensor.cpu().numpy()
@@ -72,17 +76,28 @@ class SendImageAndMask:
         if len(image.shape) == 4:  # (B, C, H, W)
             image = image[0]  # 첫 번째 배치 선택
 
-        if image.shape[0] in [1, 3, 4]:  # (C, H, W)
-            image = np.transpose(image, (1, 2, 0))  # (H, W, C)
+        if is_mask:
+            # 마스크 이미지 처리
+            if len(image.shape) == 3 and image.shape[0] == 1:  # (1, H, W)
+                image = image[0]  # 첫 번째 채널 선택
+            # 값 범위를 0-255로 조정
+            image = (image * 255).astype(np.uint8)
+            # 그레이스케일 이미지로 변환
+            return Image.fromarray(image, mode='L')
+        else:
+            # RGB 이미지 처리
+            if image.shape[0] in [1, 3, 4]:  # (C, H, W)
+                image = np.transpose(image, (1, 2, 0))  # (H, W, C)
 
-        # 값 범위 조정
-        if np.max(image) <= 1.0:
-            image = image * 255
-        image = np.clip(image, 0, 255).astype(np.uint8)
+            # 값 범위 조정
+            if np.max(image) <= 1.0:
+                image = image * 255
+            image = np.clip(image, 0, 255).astype(np.uint8)
 
-        # PIL 이미지로 변환
-        pil_image = Image.fromarray(image)
-        return pil_image
+            # RGB 이미지로 변환
+            if image.shape[-1] == 1:  # 단일 채널
+                image = np.repeat(image, 3, axis=-1)
+            return Image.fromarray(image)
 
     def pil_to_base64(self, pil_image):
         # PIL 이미지를 Base64 문자열로 변환
@@ -91,6 +106,7 @@ class SendImageAndMask:
         pil_image.save(buffered, format="PNG")
         img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         return img_str
+
 
 NODE_CLASS_MAPPINGS = {
     "SendImageAndMask": SendImageAndMask
