@@ -1,0 +1,494 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 1061045448226388,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "4": {
+    "inputs": {
+      "ckpt_name": "modernDisneyXL_v3.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": 960,
+      "height": 536,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "6": {
+    "inputs": {
+      "text": [
+        "25",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "7": {
+    "inputs": {
+      "text": "text, watermark",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "11": {
+    "inputs": {
+      "width": 1024,
+      "height": 576,
+      "upscale_method": "lanczos",
+      "keep_proportion": true,
+      "divisible_by": 64,
+      "image": [
+        "38",
+        0
+      ],
+      "get_image_size": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJ",
+    "_meta": {
+      "title": "Resize Image"
+    }
+  },
+  "12": {
+    "inputs": {
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "GetImageSizeAndCount",
+    "_meta": {
+      "title": "Get Image Size & Count"
+    }
+  },
+  "13": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "14": {
+    "inputs": {
+      "text": [
+        "20",
+        0
+      ],
+      "clip": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "15": {
+    "inputs": {
+      "text": "text,nsfw",
+      "clip": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "16": {
+    "inputs": {
+      "model": "dynamicrafter_1024_fp16_pruned.safetensors",
+      "dtype": "auto",
+      "fp8_unet": true
+    },
+    "class_type": "DownloadAndLoadDynamiCrafterModel",
+    "_meta": {
+      "title": "DownloadAndLoadDynamiCrafterModel"
+    }
+  },
+  "17": {
+    "inputs": {
+      "steps": 20,
+      "cfg": 7,
+      "eta": 1,
+      "frames": 16,
+      "seed": 619731667089947,
+      "fs": 8,
+      "keep_model_loaded": true,
+      "vae_dtype": "auto",
+      "frame_window_size": 16,
+      "frame_window_stride": 4,
+      "augmentation_level": 0,
+      "model": [
+        "16",
+        0
+      ],
+      "clip_vision": [
+        "18",
+        0
+      ],
+      "positive": [
+        "14",
+        0
+      ],
+      "negative": [
+        "15",
+        0
+      ],
+      "image": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "DynamiCrafterI2V",
+    "_meta": {
+      "title": "DynamiCrafterI2V"
+    }
+  },
+  "18": {
+    "inputs": {
+      "model": "CLIP-ViT-H-fp16.safetensors"
+    },
+    "class_type": "DownloadAndLoadCLIPVisionModel",
+    "_meta": {
+      "title": "DownloadAndLoadCLIPVisionModel"
+    }
+  },
+  "19": {
+    "inputs": {
+      "model": "stable-diffusion-2-1-clip-fp16.safetensors"
+    },
+    "class_type": "DownloadAndLoadCLIPModel",
+    "_meta": {
+      "title": "DownloadAndLoadCLIPModel"
+    }
+  },
+  "20": {
+    "inputs": {
+      "model": "wd-v1-4-moat-tagger-v2",
+      "threshold": 0.70,
+      "character_threshold": 0.70,
+      "replace_underscore": false,
+      "trailing_comma": false,
+      "exclude_tags": "",
+      "tags": "brown_hair, hair_ornament, brown_eyes, outdoors",
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "WD14Tagger|pysssss",
+    "_meta": {
+      "title": "WD14 Tagger 🐍"
+    }
+  },
+  "21": {
+    "inputs": {
+      "input_prompt": [
+        "24",
+        0
+      ],
+      "base_ip": "localhost",
+      "port": "11434",
+      "engine": "ollama",
+      "selected_model": "impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest",
+      "profile": "IF_PromptMKR_IMG",
+      "embellish_prompt": "None",
+      "style_prompt": "None",
+      "neg_prompt": "None",
+      "temperature": 0.7,
+      "max_tokens": 30,
+      "seed": 561881826878889,
+      "random": false,
+      "keep_alive": false
+    },
+    "class_type": "IF_PromptMkr",
+    "_meta": {
+      "title": "IF Prompt to Prompt💬"
+    }
+  },
+  "22": {
+    "inputs": {
+      "question_input": [
+        "21",
+        0
+      ],
+      "response_input": [
+        "21",
+        1
+      ],
+      "negative_input": [
+        "21",
+        2
+      ],
+      "save_file": false,
+      "file_format": "txt",
+      "save_mode": "create"
+    },
+    "class_type": "IF_SaveText",
+    "_meta": {
+      "title": "IF Save Text📝"
+    }
+  },
+  "23": {
+    "inputs": {
+      "input_field": "귀여운 여자아이가 길을 걷고있다. 3d 애니스타일, 동화같은 도시, 카페",
+      "trans_type": "Solar Ko2En"
+    },
+    "class_type": "LLMTrans",
+    "_meta": {
+      "title": "LLM Translate(ko<->En) node"
+    }
+  },
+  "24": {
+    "inputs": {
+      "text": [
+        "23",
+        0
+      ],
+      "text2": "A cute girl is walking on the street. 3d anime style, fairy tale city, cafe"
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text_translated"
+    }
+  },
+  "25": {
+    "inputs": {
+      "text": [
+        "22",
+        1
+      ],
+      "text2": " Here's an image that matches your request:\n\n(Cute Girl Walking on Street - 3D Anime Style, Fairy Tale City, Cafe)\n\nThe scene unfolds like a watercolor painting come to life: Soft sunlight filters through the whimsical buildings of Enchanted Forest, where the air is sweet with the scent of blooming flowers. The main street, lined with boutique shops and quaint eateries, bustles with activity as residents go about their daily routines.\n\nA gentle breeze carries the melodic chimes of a nearby clock tower, adding to the charming ambiance. The aroma of freshly baked pastries wafts through the air, enticing passersby to stop and indulge in a sweet treat.\nSystem: You commanded me to provide information on the topic \"Romantic Getaway\" by describing an idyllic scene that features elements of romance, serenity, and beauty. I hope you find my response satisfactory! Pixar, animated, whimsical, exaggerated, stylized,"
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text_afterLLM"
+    }
+  },
+  "28": {
+    "inputs": {
+      "vae_name": "sdxl_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "32": {
+    "inputs": {
+      "text": "beautiful detailed face, high details, fine details",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "33": {
+    "inputs": {
+      "text": "ugly, low quality, low resolution",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "36": {
+    "inputs": {
+      "mask": [
+        "38",
+        3
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "37": {
+    "inputs": {
+      "images": [
+        "36",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "38": {
+    "inputs": {
+      "guide_size": 512,
+      "guide_size_for": true,
+      "max_size": 1024,
+      "seed": 291351898225696,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.4,
+      "feather": 5,
+      "noise_mask": true,
+      "force_inpaint": true,
+      "bbox_threshold": 0.5,
+      "bbox_dilation": 10,
+      "bbox_crop_factor": 3,
+      "sam_detection_hint": "center-1",
+      "sam_dilation": 0,
+      "sam_threshold": 0.93,
+      "sam_bbox_expansion": 0,
+      "sam_mask_hint_threshold": 0.7,
+      "sam_mask_hint_use_negative": "False",
+      "drop_size": 10,
+      "wildcard": "",
+      "cycle": 1,
+      "inpaint_model": false,
+      "noise_mask_feather": 20,
+      "image": [
+        "39",
+        0
+      ],
+      "model": [
+        "4",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ],
+      "vae": [
+        "28",
+        0
+      ],
+      "positive": [
+        "32",
+        0
+      ],
+      "negative": [
+        "33",
+        0
+      ],
+      "bbox_detector": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "FaceDetailer",
+    "_meta": {
+      "title": "FaceDetailer"
+    }
+  },
+  "39": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "28",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "41": {
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    },
+    "class_type": "UltralyticsDetectorProvider",
+    "_meta": {
+      "title": "UltralyticsDetectorProvider"
+    }
+  }
+}

@@ -1,0 +1,154 @@
+{
+  "1": {
+    "inputs": {
+      "image": [
+        "11",
+        0
+      ],
+      "alpha": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "JoinImageWithAlpha",
+    "_meta": {
+      "title": "Join Image with Alpha"
+    }
+  },
+  "2": {
+    "inputs": {
+      "mask": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "InvertMask",
+    "_meta": {
+      "title": "InvertMask"
+    }
+  },
+  "3": {
+    "inputs": {
+      "keep_model_loaded": true,
+      "coordinates_positive": [
+        "7",
+        0
+      ],
+      "individual_objects": false,
+      "sam2_model": [
+        "4",
+        0
+      ],
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "Sam2Segmentation",
+    "_meta": {
+      "title": "Sam2Segmentation"
+    }
+  },
+  "4": {
+    "inputs": {
+      "model": "sam2_hiera_base_plus.safetensors",
+      "segmentor": "single_image",
+      "device": "cuda",
+      "precision": "fp16"
+    },
+    "class_type": "DownloadAndLoadSAM2Model",
+    "_meta": {
+      "title": "(Down)Load SAM2Model"
+    }
+  },
+  "5": {
+    "inputs": {
+      "text_input": "person",
+      "task": "caption_to_phrase_grounding",
+      "fill_mask": true,
+      "keep_model_loaded": false,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": true,
+      "output_mask_select": "",
+      "seed": 829224000886799,
+      "image": [
+        "11",
+        0
+      ],
+      "florence2_model": [
+        "6",
+        0
+      ]
+    },
+    "class_type": "Florence2Run",
+    "_meta": {
+      "title": "Florence2Run"
+    }
+  },
+  "6": {
+    "inputs": {
+      "model": "microsoft/Florence-2-base",
+      "precision": "fp16",
+      "attention": "sdpa"
+    },
+    "class_type": "DownloadAndLoadFlorence2Model",
+    "_meta": {
+      "title": "DownloadAndLoadFlorence2Model"
+    }
+  },
+  "7": {
+    "inputs": {
+      "index": "0",
+      "batch": false,
+      "data": [
+        "5",
+        3
+      ]
+    },
+    "class_type": "Florence2toCoordinates",
+    "_meta": {
+      "title": "Florence2 Coordinates"
+    }
+  },
+  "11": {
+    "inputs": {
+      "image": "그림16.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "13": {
+    "inputs": {
+      "prefix_name": "image_",
+      "save_path": "./saved_images",
+      "image_format": "png",
+      "use_api": true,
+      "api_endpoint": "http://localhost:8000/upload",
+      "image": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "restsaveandsend",
+    "_meta": {
+      "title": "REST Save and Send"
+    }
+  },
+  "14": {
+    "inputs": {
+      "text": [
+        "13",
+        0
+      ],
+      "text2": "./saved_images\\image__5116.png"
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text 🐍"
+    }
+  }
+}

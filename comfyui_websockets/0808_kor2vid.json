@@ -1,0 +1,485 @@
+{
+  "3": {
+    "inputs": {
+      "seed": 447234841753721,
+      "steps": 30,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "4",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "latent_image": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "4": {
+    "inputs": {
+      "ckpt_name": "animagineXLV31_v31.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "5": {
+    "inputs": {
+      "width": 960,
+      "height": 536,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "6": {
+    "inputs": {
+      "text": [
+        "25",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "7": {
+    "inputs": {
+      "text": "text, watermark",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "11": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "upscale_method": "lanczos",
+      "keep_proportion": true,
+      "divisible_by": 64,
+      "image": [
+        "38",
+        0
+      ],
+      "get_image_size": [
+        "38",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJ",
+    "_meta": {
+      "title": "Resize Image"
+    }
+  },
+  "12": {
+    "inputs": {
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "GetImageSizeAndCount",
+    "_meta": {
+      "title": "Get Image Size & Count"
+    }
+  },
+  "13": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "17",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "14": {
+    "inputs": {
+      "text": [
+        "20",
+        0
+      ],
+      "clip": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "15": {
+    "inputs": {
+      "text": "text,nsfw",
+      "clip": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "16": {
+    "inputs": {
+      "model": "dynamicrafter_1024_fp16_pruned.safetensors",
+      "dtype": "auto",
+      "fp8_unet": true
+    },
+    "class_type": "DownloadAndLoadDynamiCrafterModel",
+    "_meta": {
+      "title": "DownloadAndLoadDynamiCrafterModel"
+    }
+  },
+  "17": {
+    "inputs": {
+      "steps": 20,
+      "cfg": 7,
+      "eta": 1,
+      "frames": 16,
+      "seed": 128375883878762,
+      "fs": 8,
+      "keep_model_loaded": true,
+      "vae_dtype": "auto",
+      "frame_window_size": 16,
+      "frame_window_stride": 4,
+      "augmentation_level": 0,
+      "model": [
+        "16",
+        0
+      ],
+      "clip_vision": [
+        "18",
+        0
+      ],
+      "positive": [
+        "14",
+        0
+      ],
+      "negative": [
+        "15",
+        0
+      ],
+      "image": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "DynamiCrafterI2V",
+    "_meta": {
+      "title": "DynamiCrafterI2V"
+    }
+  },
+  "18": {
+    "inputs": {
+      "model": "CLIP-ViT-H-fp16.safetensors"
+    },
+    "class_type": "DownloadAndLoadCLIPVisionModel",
+    "_meta": {
+      "title": "DownloadAndLoadCLIPVisionModel"
+    }
+  },
+  "19": {
+    "inputs": {
+      "model": "stable-diffusion-2-1-clip-fp16.safetensors"
+    },
+    "class_type": "DownloadAndLoadCLIPModel",
+    "_meta": {
+      "title": "DownloadAndLoadCLIPModel"
+    }
+  },
+  "20": {
+    "inputs": {
+      "model": "wd-v1-4-moat-tagger-v2",
+      "threshold": 0.7000000000000001,
+      "character_threshold": 0.7000000000000001,
+      "replace_underscore": false,
+      "trailing_comma": false,
+      "exclude_tags": "",
+      "tags": "beard",
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "WD14Tagger|pysssss",
+    "_meta": {
+      "title": "WD14 Tagger 🐍"
+    }
+  },
+  "21": {
+    "inputs": {
+      "input_prompt": [
+        "24",
+        0
+      ],
+      "base_ip": "localhost",
+      "port": "11434",
+      "engine": "ollama",
+      "selected_model": "impactframes/llama3_ifai_sd_prompt_mkr_q4km:latest",
+      "profile": "IF_PromptMKR_IMG",
+      "embellish_prompt": "None",
+      "style_prompt": "None",
+      "neg_prompt": "None",
+      "temperature": 0.2000000000000001,
+      "max_tokens": 256,
+      "seed": 549646450250649,
+      "random": false,
+      "keep_alive": false
+    },
+    "class_type": "IF_PromptMkr",
+    "_meta": {
+      "title": "IF Prompt to Prompt💬"
+    }
+  },
+  "22": {
+    "inputs": {
+      "question_input": [
+        "21",
+        0
+      ],
+      "response_input": [
+        "21",
+        1
+      ],
+      "negative_input": [
+        "21",
+        2
+      ],
+      "save_file": false,
+      "file_format": "txt",
+      "save_mode": "create"
+    },
+    "class_type": "IF_SaveText",
+    "_meta": {
+      "title": "IF Save Text📝"
+    }
+  },
+  "23": {
+    "inputs": {
+      "input_field": "마법으로 이뤄진 카페",
+      "trans_type": "Solar Ko2En"
+    },
+    "class_type": "LLMTrans",
+    "_meta": {
+      "title": "LLM Translate(ko<->En) node"
+    }
+  },
+  "24": {
+    "inputs": {
+      "text": [
+        "23",
+        0
+      ],
+      "text2": "A cafe made of magic"
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text_translated"
+    }
+  },
+  "25": {
+    "inputs": {
+      "text": [
+        "22",
+        1
+      ],
+      "text2": " Imagine a cafe that is not just any ordinary establishment, but one that has been enchanted by magical forces. The walls are adorned with twinkling fairy lights, and the air is sweet with the scent of sugar cookies wafting from the bakery next door. You step inside, greeted by the warm glow of soft lighting, the sound of gentle chatter, and the inviting aroma of freshly baked treats wafting through the air. As you enter this cozy cafe, you're immediately enveloped in a sense of warmth and comfort. The aroma of freshly brewed coffee fills the air, and the soft hum of conversation creates a cozy atmosphere. You take a seat at the bar, ordering your favorite drink as you gaze around at the eclectic decor. The bartender, a friendly soul with a bushy beard, greets you warmly and begins to regale you with tales of his latest exploits in the kitchen. As he talks, he gestures wildly with his hands, sending flour flying everywhere. You can't help but laugh at the sight of him covered in white powder, his bright red nose twitching as he tries to get the last bit of makeup off. The room is filled with the sound of laughter and chatter, as people mingle and have a good time. The air is filled with the delicious aroma of food, and the sounds of laughter and chatter fill the atmosphere.\n\nYou are currently standing in front of a large feast spread out before you. There are rows upon rows of tables laden with an assortment of "
+    },
+    "class_type": "ShowText|pysssss",
+    "_meta": {
+      "title": "Show Text_afterLLM"
+    }
+  },
+  "32": {
+    "inputs": {
+      "text": "beautiful detailed face, high details, fine details",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "33": {
+    "inputs": {
+      "text": "ugly, low quality, low resolution",
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "36": {
+    "inputs": {
+      "mask": [
+        "38",
+        3
+      ]
+    },
+    "class_type": "MaskToImage",
+    "_meta": {
+      "title": "Convert Mask to Image"
+    }
+  },
+  "37": {
+    "inputs": {
+      "images": [
+        "36",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "38": {
+    "inputs": {
+      "guide_size": 512,
+      "guide_size_for": true,
+      "max_size": 1024,
+      "seed": 730527195372735,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 0.4,
+      "feather": 5,
+      "noise_mask": true,
+      "force_inpaint": true,
+      "bbox_threshold": 0.5,
+      "bbox_dilation": 10,
+      "bbox_crop_factor": 3,
+      "sam_detection_hint": "center-1",
+      "sam_dilation": 0,
+      "sam_threshold": 0.93,
+      "sam_bbox_expansion": 0,
+      "sam_mask_hint_threshold": 0.7000000000000001,
+      "sam_mask_hint_use_negative": "False",
+      "drop_size": 10,
+      "wildcard": "",
+      "cycle": 1,
+      "inpaint_model": false,
+      "noise_mask_feather": 20,
+      "image": [
+        "39",
+        0
+      ],
+      "model": [
+        "4",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ],
+      "vae": [
+        "4",
+        2
+      ],
+      "positive": [
+        "32",
+        0
+      ],
+      "negative": [
+        "33",
+        0
+      ],
+      "bbox_detector": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "FaceDetailer",
+    "_meta": {
+      "title": "FaceDetailer"
+    }
+  },
+  "39": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "4",
+        2
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "41": {
+    "inputs": {
+      "model_name": "bbox/face_yolov8m.pt"
+    },
+    "class_type": "UltralyticsDetectorProvider",
+    "_meta": {
+      "title": "UltralyticsDetectorProvider"
+    }
+  }
+}
